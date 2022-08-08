@@ -1,6 +1,5 @@
 <h1 align="center">
-  Hi there, I'm kaemey
-  <img src="https://github.com/blackcater/blackcater/raw/main/images/Hi.gif" height="32"/>
+  I'm kaemey
 </h1>
 <h3 align="center">
   I'm learning a programming language PHP

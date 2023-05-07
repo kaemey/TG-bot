@@ -1,6 +1,8 @@
 <h1 align="center">
-  I'm kaemey
+  Доброго дня! Я kaemey
 </h1>
 <h3 align="center">
-  I'm learning a programming language PHP
+  Я изучаю PHP
+  Здесь ты можешь посмотреть все мои проекты:
+  1. TG Bot на PHP
 </h3>

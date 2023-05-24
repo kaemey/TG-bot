@@ -3,13 +3,13 @@
 require __DIR__ . "/vendor/autoload.php";
 
 //киви
-const SECRET_KEY = 'eyJ2ZXJzaW9uIjoiUDJQIiwiZGF0YSI6eyJwYXlpbl9tZXJjaGFudF9zaXRlX3VpZCI6InRsam91by0wMCIsInVzZXJfaWQiOiI3OTUyMjAxNzYzMCIsInNlY3JldCI6IjA3M2NkNThlZmJjMzhlMzFjYjhiNjJhZWRkNzAwOTkwODRjYTVmNWRmZGFiOGU4YTY0ZWE5ZmE0NDM0NDViNWQifX0=';
-const PUBLIC_KEY = '48e7qUxn9T7RyYE1MVZswX1FRSbE6iyCj2gCRwwF3Dnh5XrasNTx3BGPiMsyXQFNKQhvukniQG8RTVhYm3iPxf76ESMmYP4yAarwcG7u9kvcBQT7PHMFepcRmvtWW4ywmmj2oMJxXwhnAMMCt9okWiR5BW8Bd1idEL5rSheD73kEbXaFDXWZx4bMEdCsH';
+const SECRET_KEY = 'SECRET_KEY от QIWI';
+const PUBLIC_KEY = 'PUBLIC_KEY от QIWI';
 
 $billPayments = new Qiwi\Api\BillPayments(SECRET_KEY);
 
 //Подключение БД
-$conn = new mysqli("localhost", "kaemey", "KripSan4ik", "bd1");
+$conn = new mysqli("localhost", "BD", "password", "botbd");
 // Подлкючение запроса от ТГ
 $data = file_get_contents('php://input');
 $data = json_decode($data, true);

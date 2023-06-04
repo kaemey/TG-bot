@@ -1,6 +1,6 @@
 <?php
 // Секретный ключ от APIN
-$secret_key = "eyJ2ZXJzaW9uIjoiUDJQIiwiZGF0YSI6eyJwYXlpbl9tZXJjaGFudF9zaXRlX3VpZCI6InRsam91by0wMCIsInVzZXJfaWQiOiI3OTUyMjAxNzYzMCIsInNlY3JldCI6IjA3M2NkNThlZmJjMzhlMzFjYjhiNjJhZWRkNzAwOTkwODRjYTVmNWRmZGFiOGU4YTY0ZWE5ZmE0NDM0NDViNWQifX0=";
+$secret_key = "Секретный ключ от QIWI";
 $sha256_hash_header = $_SERVER['HTTP_X_API_SIGNATURE_SHA256']; 
 
 $conn = new mysqli("localhost", "kaemey", "KripSan4ik", "bd1");

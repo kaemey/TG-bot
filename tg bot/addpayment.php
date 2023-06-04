@@ -21,11 +21,6 @@ $sha256_hash = hash_hmac('sha256', $invoice_parameters, $secret_key);
 
 // Проверка подписи вебхука
 
-/*$check = $billPayments->checkNotificationSignature(
-  $_SERVER['HTTP_X_API_SIGNATURE_SHA256'], $array_body, $secret_key
-); // true or false
-*/
-
 if (($sha256_hash_header == $sha256_hash) && $status_value = "PAID"){
     $error = array('error' => '0');
     
@@ -60,6 +55,7 @@ if (($sha256_hash_header == $sha256_hash) && $status_value = "PAID"){
 }
 else $error = array('error' => '1');
 $conn->close();	
+
 //Ответ
 header("HTTP/1.1 200 OK");
 header('Content-Type: application/json');

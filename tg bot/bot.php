@@ -14,7 +14,7 @@ $conn = new mysqli("localhost", "BD", "password", "botbd");
 $data = file_get_contents('php://input');
 $data = json_decode($data, true);
 $reply = array();
-define('TOKEN', '5590847189:AAEEymCadyqoIlEqwK_25C3vfPUaFK5H31M');
+define('TOKEN', 'Ваш токен от Bot Father');
 define('tgapi', 'https://api.telegram.org/bot' . TOKEN . '/');
 
 // Функция вызова методов API.

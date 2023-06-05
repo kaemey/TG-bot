@@ -1,1 +1,4 @@
-Здесь пока что ничего нет
+<?php
+include "Tgbot.class.php";
+
+$Tgbot = new Tgbot();

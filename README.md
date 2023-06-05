@@ -1,4 +1,4 @@
-<h1 align="center">
+<h1 align="center" color="0000CD">
   Telegram Bot Class PHP
 </h1>
 <h3>Универсальный родительский класс для твоего проекта,<br> с помощью которого ты сможешь быстро разработать своего Telegram бота<br></h3>

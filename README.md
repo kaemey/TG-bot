@@ -11,19 +11,5 @@
 <h4 align="center">а значение - метод ответа (текстовый, отправка фото, документа).</h4>
 <h4 align="center">сообщения регистронезависимые (неважно: ПриВЕт или привет)</h4>
 <h3 align="center">Пример</h3>
-<sub>$responses = array(
-    'купить' => array(
-        "Для покупки перейдите по ссылке:" => "text"
-    ),
-    'фото' => array(
-        "Ваши фото" => "text",
-        "/photos/photo1.jpg" => "photo",
-        "/photos/photo2.jpg" => "photo"
-    ),
-    "документы" => array(
-        "Ваши документы" => "text",
-        "/docs/doc1.txt" => "doc",
-        "/docs/doc2.pdf" => "doc"
-    )
-);</sub>
+<img src="https://i.imgur.com/qm4Bkp7.png">
 

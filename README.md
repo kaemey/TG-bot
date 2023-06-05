@@ -11,5 +11,10 @@
 <h4 align="center">а значение - метод ответа (текстовый, отправка фото, документа).</h4>
 <h4 align="center">сообщения регистронезависимые (неважно: ПриВЕт или привет)</h4>
 <h3 align="center">Пример</h3>
-<img src="https://i.imgur.com/qm4Bkp7.png">
-
+<img align="center" src="https://i.imgur.com/qm4Bkp7.png">
+<h3 align="center">2.2. Занести в переменную $first_message сообщение, что приходит пользователю, что зашёл впервые.</h3>
+<h3 align="center">2.3. Занести в переменную $calls_admins сообщения, что должны вызывать администраторов бота.</h3>
+<h3 align="center">2.4. Занести в переменную $keyboard текст для клавиш клавиатуры.</h3>
+<h3 align="center">2.5. Занести в переменные $host, $bd_name, $password, $table данные для подключения к твоей БД.</h3>
+<h3 align="center">Пример</h3>
+<img align="center" src="https://i.imgur.com/LcdaBcg.png">

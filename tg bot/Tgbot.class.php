@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . "/vendor/autoload.php";
+include_once "QIWI.class.php";
 class Tgbot
 {
     public $mysqli;
@@ -19,8 +20,8 @@ class Tgbot
     {
         include "config.php";
 
-        if ((isset($QIWI_SECRET_KEY)) and (isset($QIWI_PUBLIC_KEY))) {
-            $this->qiwi = new Qiwi\Api\BillPayments($QIWI_SECRET_KEY);
+        if ((!empty($QIWI_SECRET_KEY)) and (!empty($QIWI_PUBLIC_KEY))) {
+            $this->qiwi = new QIWI($QIWI_SECRET_KEY);
             $this->qiwi_response = $qiwi_response;
             $this->qiwi_answer = $qiwi_answer;
             $this->qiwi_public_key = $QIWI_PUBLIC_KEY;
@@ -46,12 +47,22 @@ class Tgbot
         $this->data = file_get_contents('php://input');
         $this->data = json_decode($this->data, true);
 
+        if (!empty($this->qiwi)) {
+
+            if (!empty($this->data['bill'])) {
+                $this->qiwi->init($this->data, $this->mysqli);
+                $this->mysqli->close();
+                exit();
+            }
+
+        }
+
         if (empty($this->data['message']['chat']['id'])) {
             if (empty($this->data['out'])) {
                 $this->mysqli->close();
                 exit();
             } else {
-                $this->checkAddpayment();
+                $this->checkAddPayment();
             }
         }
 
@@ -100,7 +111,7 @@ class Tgbot
         return $this->mysqli->real_escape_string($value);
     }
 
-    function checkAddpayment()
+    function checkAddPayment()
     {
         if ($this->data['out'] == 'addpayment') {
             sendTelegram(
@@ -157,7 +168,7 @@ class Tgbot
 
     function checkMessage($message)
     {
-        if (isset($this->qiwi_response)) {
+        if (!empty($this->qiwi_response)) {
             if (mb_stripos($message, $this->qiwi_response)) {
                 $this->sendQiwiText();
                 $this->mysqli->close();

@@ -30,3 +30,4 @@
  <h3>В случае успеха бразуер выдаст сообщение {"ok":true,"result":true,"description":"Webhook was set"}<br>
 Теперь можно убрать из параметра 'setWebHook': $Tgbot = new Tgbot();<br>
 Можно пользоваться.</h3>
+<img src="https://i.imgur.com/IBDs3Uv.png">

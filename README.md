@@ -23,7 +23,10 @@
 Есть логика по-умолчанию для примера использования.<br>
 Используемый в коде класс QIWI наследуется от <a href="https://github.com/QIWI-API/bill-payments-php-sdk">данного класса</a></h3>
 <img src="https://i.imgur.com/HEmzfg6.png">
-<h2>Первые шаги:</h2>
+<h2>Первое использование:</h2>
 <h3>Необходимо привязать вебхук от BotFeather, для этого используйте следующий код в index.php:</h3>
 <img src="https://i.imgur.com/OKjdrkc.png">
  <h3>Если браузер выдаст <br>{"ok":false,"error_code":400,"description":"Bad Request: bad webhook: An HTTPS URL must be provided for webhook"},<br> значит у вас не подключён SSL-сертификат (ваш сайт http, а нужен https).</h3>
+ <h3>В случае успеха бразуер выдаст сообщение {"ok":true,"result":true,"description":"Webhook was set"}<br>
+Теперь можно убрать из параметра 'setWebHook': $Tgbot = new Tgbot();
+Можно пользоваться.</h3>

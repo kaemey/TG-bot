@@ -1,8 +1,9 @@
 <?php
 require __DIR__ . "/vendor/autoload.php";
-include_once "QIWI.class.php";
+require "QIWI.class.php";
 class Tgbot
 {
+    private $tg_token;
     public $mysqli;
     private $tg_api;
     private $data;
@@ -16,9 +17,14 @@ class Tgbot
     private $qiwi_public_key;
     private $qiwi_response;
     private $qiwi_answer;
-    function __construct()
+    function __construct($param = '')
     {
         include "config.php";
+
+        if (!empty($param)) {
+            if ($param = "setWebHook")
+                $this->setWebHook($TG_TOKEN);
+        }
 
         if ((!empty($QIWI_SECRET_KEY)) and (!empty($QIWI_PUBLIC_KEY))) {
             $this->qiwi = new QIWI($QIWI_SECRET_KEY);
@@ -28,6 +34,7 @@ class Tgbot
         }
 
         $this->mysqli = new mysqli($host, $bd_name, $password, $table);
+
         $this->tg_api = 'https://api.telegram.org/bot' . $TG_TOKEN . '/';
 
         $this->responses = $responses;
@@ -252,5 +259,12 @@ class Tgbot
                 )
             );
         }
+    }
+
+    function setWebHook($token)
+    {
+        $url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+        header('Location: https://api.telegram.org/bot' . $token . '/setWebhook?url=' . $url);
     }
 }

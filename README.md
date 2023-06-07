@@ -28,5 +28,5 @@
 <img src="https://i.imgur.com/OKjdrkc.png">
  <h3>Если браузер выдаст <br>{"ok":false,"error_code":400,"description":"Bad Request: bad webhook: An HTTPS URL must be provided for webhook"},<br> значит у вас не подключён SSL-сертификат (ваш сайт http, а нужен https).</h3>
  <h3>В случае успеха бразуер выдаст сообщение {"ok":true,"result":true,"description":"Webhook was set"}<br>
-Теперь можно убрать из параметра 'setWebHook': $Tgbot = new Tgbot();
+Теперь можно убрать из параметра 'setWebHook': $Tgbot = new Tgbot();<br>
 Можно пользоваться.</h3>

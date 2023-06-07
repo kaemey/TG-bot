@@ -33,9 +33,11 @@ $keyboard = [["Купить", "Фото", "Документы", "Поддерж�
 
 //Подключение Базы данных
 $host = "localhost";
-$bd_name = "BD";
+$username = "username";
 $password = "password";
-$table = "botbd";
+$database = "database";
+$table = "users";
+
 
 //При использовании QIWI API раскомментировать
 

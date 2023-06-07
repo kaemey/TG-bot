@@ -5,6 +5,7 @@ class Tgbot
 {
     private $tg_token;
     public $mysqli;
+    private $table;
     private $tg_api;
     private $data;
     private $chat_id;
@@ -33,7 +34,8 @@ class Tgbot
             $this->qiwi_public_key = $QIWI_PUBLIC_KEY;
         }
 
-        $this->mysqli = new mysqli($host, $bd_name, $password, $table);
+        $this->mysqli = new mysqli($host, $username, $password, $database);
+        $this->table = $table;
 
         $this->tg_api = 'https://api.telegram.org/bot' . $TG_TOKEN . '/';
 
@@ -54,6 +56,8 @@ class Tgbot
         $this->data = file_get_contents('php://input');
         $this->data = json_decode($this->data, true);
 
+        $this->chat_id = $this->data['message']['chat']['id'];
+
         if (!empty($this->qiwi)) {
 
             if (!empty($this->data['bill'])) {
@@ -64,7 +68,7 @@ class Tgbot
 
         }
 
-        if (empty($this->data['message']['chat']['id'])) {
+        if (empty($this->chat_id)) {
             if (empty($this->data['out'])) {
                 $this->mysqli->close();
                 exit();
@@ -72,10 +76,6 @@ class Tgbot
                 $this->checkAddPayment();
             }
         }
-
-        $this->reply = array();
-
-        $this->chat_id = $this->data['message']['chat']['id'];
 
         $this->initUser();
 
@@ -86,7 +86,8 @@ class Tgbot
 
     function initUser()
     {
-        $result = $this->mysqli->query("SELECT username, chat_id, buy, admin FROM user");
+        $result = $this->mysqli->query("SELECT username, chat_id, buy, admin FROM $this->table");
+        $found = false;
 
         if ($result->num_rows > 0) {
             //Поиск в БД админских id чатов
@@ -94,12 +95,17 @@ class Tgbot
                 if ($row["admin"] == 1) {
                     $this->admin_chats_id[] = $row["chat_id"];
                 }
+                if ($row["chat_id"] == $this->chat_id) {
+                    $found = true;
+                }
             }
-        } else {
-            $this->mysqli->query("INSERT INTO user (chat_id, username, admin)
-            VALUES ('" . $this->escape($this->chat_id) . "','" . $this->escape($this->data['message']['from']['username']) . "','0')");
+        }
 
-            sendTelegram(
+        if (!$found) {
+            $this->mysqli->query("INSERT INTO $this->table (chat_id, username)
+            VALUES ('" . $this->escape($this->chat_id) . "','" . $this->escape($this->data['message']['from']['username']) . "')");
+
+            $this->sendTelegram(
                 'sendMessage',
                 array(
                     'chat_id' => $this->chat_id,
@@ -121,7 +127,7 @@ class Tgbot
     function checkAddPayment()
     {
         if ($this->data['out'] == 'addpayment') {
-            sendTelegram(
+            $this->sendTelegram(
                 'sendMessage',
                 array(
                     'chat_id' => $this->data["chat_id"],
@@ -147,7 +153,7 @@ class Tgbot
         return $this->qiwi->createPaymentForm($params);
     }
 
-    function sendTelegram($method, $response, $delete = false)
+    function sendTelegram($method, $response)
     {
 
         $response['reply_markup'] = $this->reply;
@@ -164,7 +170,7 @@ class Tgbot
 
     function sendQiwiText()
     {
-        sendTelegram(
+        $this->sendTelegram(
             'sendMessage',
             array(
                 'chat_id' => $this->chat_id,
@@ -176,7 +182,7 @@ class Tgbot
     function checkMessage($message)
     {
         if (!empty($this->qiwi_response)) {
-            if (mb_stripos($message, $this->qiwi_response)) {
+            if (mb_stripos($message, $this->qiwi_response) !== false) {
                 $this->sendQiwiText();
                 $this->mysqli->close();
                 exit();
@@ -184,7 +190,7 @@ class Tgbot
         }
 
         foreach ($this->responses as $response => $answer) {
-            if (mb_stripos($message, $response)) {
+            if (mb_stripos($message, $response) !== false) {
                 $this->answerMessage($answer);
                 $this->mysqli->close();
                 exit();
@@ -192,7 +198,7 @@ class Tgbot
         }
 
         foreach ($this->calls_admins as $call) {
-            if (mb_stripos($message, $call)) {
+            if (mb_stripos($message, $call) !== false) {
                 $this->callAdmins();
                 $this->mysqli->close();
                 exit();
@@ -206,7 +212,7 @@ class Tgbot
 
             switch ($data) {
                 case "photo":
-                    sendTelegram(
+                    $this->sendTelegram(
                         'sendPhoto',
                         array(
                             'chat_id' => $this->chat_id,
@@ -215,7 +221,7 @@ class Tgbot
                     );
                     break;
                 case "text":
-                    sendTelegram(
+                    $this->sendTelegram(
                         'sendMessage',
                         array(
                             'chat_id' => $this->chat_id,
@@ -224,7 +230,7 @@ class Tgbot
                     );
                     break;
                 case "doc":
-                    sendTelegram(
+                    $this->sendTelegram(
                         'sendDocument',
                         array(
                             'chat_id' => $this->chat_id,
@@ -239,7 +245,7 @@ class Tgbot
 
     function callAdmins()
     {
-        sendTelegram(
+        $this->sendTelegram(
             'sendMessage',
             array(
                 'chat_id' => $this->chat_id,
@@ -251,7 +257,7 @@ class Tgbot
         );
 
         foreach ($this->admin_chats_id as $admin) {
-            sendTelegram(
+            $this->sendTelegram(
                 'sendMessage',
                 array(
                     'chat_id' => $admin,
@@ -263,7 +269,7 @@ class Tgbot
 
     function setWebHook($token)
     {
-        $url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
         header('Location: https://api.telegram.org/bot' . $token . '/setWebhook?url=' . $url);
     }

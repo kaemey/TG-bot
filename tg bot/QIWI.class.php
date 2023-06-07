@@ -2,6 +2,7 @@
 class QIWI extends Qiwi\Api\BillPayments
 {
     private $mysqli;
+    private $table;
     private $amount_currency;
     private $amount_value;
     private $billId;
@@ -12,9 +13,10 @@ class QIWI extends Qiwi\Api\BillPayments
     private $sha256_hash;
     private $invoice_parameters;
     private $error;
-    function init($data, $mysqli)
+    function init($data, $mysqli, $table)
     {
         $this->mysqli = $mysqli;
+        $this->table = $table;
 
         $this->sha256_hash_header = $_SERVER['HTTP_X_API_SIGNATURE_SHA256'];
         $this->amount_currency = $data['bill']['amount']['currency'];
@@ -46,15 +48,15 @@ class QIWI extends Qiwi\Api\BillPayments
         $items = explode("-", $this->billId);
         $chat_id = $items[0];
 
-        $search = $this->mysqli->query("SELECT buy, chat_id FROM user WHERE chat_id=" . $chat_id);
+        $search = $this->mysqli->query("SELECT buy, chat_id FROM $this->table WHERE chat_id=$chat_id");
 
         //Поиск в БД id чата для проставления статуса buy на 2
         //Также отправка на index.php data['out'] => 'addpayment' для checkAddpayment()
         while ($row = $search->fetch_assoc()) {
 
-            $this->mysqli->query("UPDATE user SET buy=2 WHERE chat_id = '" . $chat_id . "'");
+            $this->mysqli->query("UPDATE $this->table SET buy=2 WHERE chat_id =$chat_id");
 
-            $url = 'https://coorsebuy.ru/index.php';
+            $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             $data = array("out" => "addpayment", "chat_id" => $chat_id);
 
             $postdata = json_encode($data);

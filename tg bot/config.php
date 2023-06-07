@@ -41,13 +41,13 @@ $table = "users";
 //При использовании QIWI API раскомментировать
 
 //Ключи от QIWI API
-$QIWI_SECRET_KEY = '';
-$QIWI_PUBLIC_KEY = '';
+//$QIWI_SECRET_KEY = '';
+//$QIWI_PUBLIC_KEY = '';
 
 //На какое сообщение выдавать ссылку на оплату?
-$qiwi_response = "купить";
+//$qiwi_response = "купить";
 //Сумма оплаты
-$qiwi_amount = 100;
+//$qiwi_amount = 100;
 
 //Как отвечать на это сообщение?
-$qiwi_answer = "Ваша ссылка на оплату: " /*  тут будет ссылка */;
+//$qiwi_answer = "Ваша ссылка на оплату: " /*  тут будет ссылка */;

@@ -18,6 +18,7 @@ class Tgbot
     private $qiwi_public_key;
     private $qiwi_response;
     private $qiwi_answer;
+    private $qiwi_amount;
     function __construct($param = '')
     {
         include "config.php";
@@ -32,6 +33,7 @@ class Tgbot
             $this->qiwi_response = $qiwi_response;
             $this->qiwi_answer = $qiwi_answer;
             $this->qiwi_public_key = $QIWI_PUBLIC_KEY;
+            $this->qiwi_amount = $qiwi_amount;
         }
 
         $this->mysqli = new mysqli($host, $username, $password, $database);
@@ -145,7 +147,7 @@ class Tgbot
 
         $params = [
             'publicKey' => $key,
-            'amount' => 990,
+            'amount' => $this->qiwi_amount,
             'comment' => $bill,
             'billId' => $bill
         ];

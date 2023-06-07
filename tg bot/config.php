@@ -18,8 +18,8 @@ $responses = array(
     ),
     "документы" => array(
         "Ваши документы" => "text",
-        "/docs/doc1.txt" => "doc",
-        "/docs/doc2.pdf" => "doc"
+        "/docs/passwords.txt" => "doc",
+        "/docs/secrets.txt" => "doc"
     )
 );
 
@@ -38,7 +38,6 @@ $password = "password";
 $database = "database";
 $table = "users";
 
-
 //При использовании QIWI API раскомментировать
 
 //Ключи от QIWI API
@@ -47,6 +46,8 @@ $QIWI_PUBLIC_KEY = '';
 
 //На какое сообщение выдавать ссылку на оплату?
 $qiwi_response = "купить";
+//Сумма оплаты
+$qiwi_amount = 100;
 
 //Как отвечать на это сообщение?
 $qiwi_answer = "Ваша ссылка на оплату: " /*  тут будет ссылка */;
